@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arnaka 🛍️
 
-## Getting Started
+![Arnaka Banner](https://img.shields.io/badge/Status-In%20Development-blue?style=for-the-badge)
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Stripe](https://img.shields.io/badge/Stripe-626CD9?style=for-the-badge&logo=Stripe&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-First, run the development server:
+**Arnaka** est une plateforme e-commerce moderne et performante, conçue pour évoluer vers une marketplace B2B/B2C complète. Construite avec les dernières technologies du web, elle offre une expérience utilisateur fluide et une interface d'administration puissante.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Fonctionnalités Principales
+
+### 🛒 Expérience d'Achat (B2C)
+- **Catalogue Avancé** : Recherche, filtres par catégorie, prix, et tri dynamique.
+- **Panier Intelligent** : Persistance du panier (Guest vers User), gestion des quantités en temps réel.
+- **Checkout Sécurisé** : Intégration complète de **Stripe** pour les paiements.
+- **Design Premium** : Interface responsive et élégante utilisant *Tailwind CSS* et *Shadcn/ui*.
+
+### 📦 Dashboard Vendeur (B2B)
+- **Gestion des Produits** : CRUD complet (Création, Modification, Suppression) avec validation des données.
+- **Tableau de Bord** : Vue d'ensemble des métriques clés (Ventes, Produits actifs).
+- **Contrôle d'Accès** : Sécurisation des routes basée sur les rôles (Admin/Seller/Buyer).
+
+### 🛠️ Architecture Technique
+- **Authentification** : NextAuth.js (Google OAuth + Credentials).
+- **Base de Données** : Prisma ORM avec SQLite (Développement) / PostgreSQL (Production).
+- **Validation** : Zod pour une intégrité des données stricte (API & Formulaires).
+- **Performance** : Server Actions et Server Components pour une rapidité optimale.
+
+---
+
+## 🚀 Démarrage Rapide
+
+### Prérequis
+- Node.js 18+
+- NPM ou PNPM
+
+### Installation
+
+1.  **Cloner le dépôt**
+    ```bash
+    git clone https://github.com/Htlog36/Arnaka.git
+    cd Arnaka
+    ```
+
+2.  **Installer les dépendances**
+    ```bash
+    npm install
+    ```
+
+3.  **Configurer l'environnement**
+    Renommez `.env.example` en `.env` (si disponible) ou créez-le :
+    ```env
+    DATABASE_URL="file:./dev.db"
+    NEXTAUTH_SECRET="votre_secret_super_securise"
+    NEXTAUTH_URL="http://localhost:3000"
+    
+    # Stripe (Optionnel pour le dev local sans paiement)
+    STRIPE_SECRET_KEY="sk_test_..."
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
+    ```
+
+4.  **Initialiser la Base de Données**
+    ```bash
+    npx prisma db push
+    # (Optionnel) Seeder la DB avec des fausses données
+    # npx prisma db seed 
+    ```
+
+5.  **Lancer le serveur de développement**
+    ```bash
+    npm run dev
+    ```
+    Accédez à [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 📂 Structure du Projet
+
+```
+src/
+├── app/
+│   ├── (auth)/         # Routes d'authentification (login, register)
+│   ├── (seller)/       # Dashboard Vendeur (Layout protégé)
+│   ├── (shop)/         # Boutique publique (Catalogue, Checkout)
+│   └── api/            # Routes API (Webhooks, Cart sync)
+├── components/         # Composants UI réutilisables (Design System)
+├── lib/
+│   ├── actions/        # Server Actions (Mutations DB sécurisées)
+│   ├── db/             # Configuration Prisma
+│   └── validations/    # Schémas Zod
+└── types/              # Définitions TypeScript globales
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🗺️ Roadmap
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [x] **Fondations** (Auth, DB, UI Kit)
+- [x] **Catalogue & Panier**
+- [x] **Paiement Stripe**
+- [x] **Dashboard Vendeur (MVP)**
+- [ ] **Gestion Multi-vendeurs avancée** (Commissions)
+- [ ] **Système d'avis et notations**
+- [ ] **Dashboard Admin global**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*Développé avec ❤️ par l'équipe Arnaka.*
