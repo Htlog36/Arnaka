@@ -67,6 +67,7 @@ export interface CartItemDisplay {
     quantity: number
     stock: number
     sellerId: string
+    sellerName: string
 }
 
 /**

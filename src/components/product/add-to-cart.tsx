@@ -45,7 +45,9 @@ export function AddToCart({ product, selectedVariantId, disabled }: AddToCartPro
             variantName: selectedVariant?.name || null,
             price: price,
             quantity: quantity,
-            stock: stock
+            stock: stock,
+            sellerId: product.sellerId,
+            sellerName: product.seller.storeName || "Vendeur"
         }
 
         startTransition(async () => {

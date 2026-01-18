@@ -73,9 +73,10 @@ export async function POST(req: Request) {
                             variantName: item.variantName,
                             price: item.price,
                             quantity: item.quantity,
-                            sellerId: 'cuid-seller' // TODO: Get seller from product relation. 
-                            // getUserCart needs to return sellerId. CartItemDisplay doesn't have it.
-                            // We need to fetch it.
+                            // Calculate Commission (10%)
+                            commissionRate: 0.10,
+                            commissionAmount: item.price * item.quantity * 0.10,
+                            sellerId: item.sellerId // Now available from cart service
                         }))
                     }
                 }

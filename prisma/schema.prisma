@@ -116,7 +116,8 @@ model Seller {
   id           String   @id @default(cuid())
   userId       String   @unique
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  companyName  String
+  storeName    String
+  slug         String   @unique
   description  String?  
   logo         String?
   banner       String?
@@ -367,6 +368,10 @@ model OrderItem {
   
   // For marketplace: track which seller
   sellerId    String
+
+  // Commission
+  commissionRate   Float   @default(0.0)
+  commissionAmount Float   @default(0.0)
 
   @@index([orderId])
   @@index([sellerId])

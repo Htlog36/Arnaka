@@ -77,7 +77,8 @@ async function main() {
     const techSeller = await prisma.seller.create({
         data: {
             userId: seller1User.id,
-            companyName: 'Tech Giants',
+            storeName: 'Tech Giants',
+            slug: 'tech-giants',
             description: 'The best electronics at the best prices.',
             verified: true,
             rating: 4.8,
@@ -87,7 +88,8 @@ async function main() {
     const fashionSeller = await prisma.seller.create({
         data: {
             userId: seller2User.id,
-            companyName: 'Chic Boutique',
+            storeName: 'Chic Boutique',
+            slug: 'chic-boutique',
             description: 'Latest fashion trends for everyone.',
             verified: true,
             rating: 4.5,

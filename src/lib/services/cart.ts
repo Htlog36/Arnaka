@@ -12,14 +12,14 @@ export async function getUserCart(userId: string): Promise<CartItemDisplay[]> {
                             images: {
                                 orderBy: { order: 'asc' },
                                 take: 1
-                            }
+                            },
+                            seller: true
                         }
                     },
                     variant: true
                 },
                 orderBy: {
-                    // id: 'asc' // Assume insertion order roughly correlates or just stable sort
-                    // Better to sort by product name or creation if possible, but id is fine for now
+                    // id: 'asc' 
                 }
             }
         }
@@ -47,7 +47,8 @@ export async function getUserCart(userId: string): Promise<CartItemDisplay[]> {
             price: price,
             quantity: item.quantity,
             stock: variant ? variant.stock : product.stock,
-            sellerId: product.sellerId
+            sellerId: product.sellerId,
+            sellerName: product.seller.storeName || "Vendeur"
         }
     }).sort((a, b) => a.productName.localeCompare(b.productName))
 }

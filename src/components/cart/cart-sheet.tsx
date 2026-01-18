@@ -102,6 +102,7 @@ export function CartSheet({ isOpen, onClose }: CartSheetProps) {
                                             {item.variantName && (
                                                 <p className="mt-1 text-sm text-gray-500">{item.variantName}</p>
                                             )}
+                                            <p className="mt-1 text-xs text-gray-400">Vendu par {item.sellerName || 'Vendeur'}</p>
                                         </div>
                                         <div className="flex flex-1 items-end justify-between text-sm">
                                             <div className="flex items-center rounded border border-gray-200">

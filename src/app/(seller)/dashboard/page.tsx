@@ -5,52 +5,47 @@ import { DollarSign, Package, ShoppingCart, TrendingUp } from 'lucide-react'
 import { formatPrice } from '@/lib/utils/formatters'
 
 async function getSellerStats(userId: string) {
-    // 1. Get Seller ID
     const seller = await prisma.seller.findUnique({
         where: { userId }
     })
 
     if (!seller) return null
 
-    // 2. Complicated queries for stats
-    // Total Sales: Sum of OrderItems linked to this seller
-    // But OrderItem -> Product. We don't have direct seller link on OrderItem in basic schema?
-    // Wait, I added sellerId to CartItem, did I add it to OrderItem?
-    // Let's check schema/migration.
-    // In `test-cart-logic.ts` simplified simulation I assumed it.
-    // If OrderItem doesn't have sellerId, we must join Product -> Seller.
-
-    // Efficient way:
-    const stats = await prisma.$transaction([
-        // Active Products
+    const [activeProducts, orderItems] = await prisma.$transaction([
         prisma.product.count({
             where: { sellerId: seller.id, status: 'ACTIVE' }
         }),
-        // Total Orders (containing at least one product from this seller)
-        // This is tricky without direct link. 
-        // Let's assume for MVP we fetch products and count related order items.
-
-        // Simplified: Count products. Real sales stats need proper aggregation.
-        // Let's just mock zeros if schema is too complex for quick query, or do a simple join.
-        prisma.product.findMany({
+        prisma.orderItem.findMany({
             where: { sellerId: seller.id },
             select: {
-                _count: {
-                    select: { orderItems: true }
-                }
-                // If price is on OrderItem, we need to sum it.
+                price: true,
+                quantity: true,
+                commissionAmount: true
             }
         })
     ])
 
-    // Aggregation logic manual for now
-    const activeProducts = stats[0]
-    // const sales = ...
+    const totalSales = orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0)
+    const totalCommission = orderItems.reduce((acc, item) => acc + (item.commissionAmount || 0), 0)
+    const netRevenue = totalSales - totalCommission
+
+    // Count unique orders
+    // Since we queried orderItems, we can't easily count unique orderIds without fetching them. 
+    // Let's do a separate count or distinct query if needed, or just count items for MVP.
+    // Better:
+    const uniqueOrderCount = await prisma.order.count({
+        where: {
+            items: {
+                some: { sellerId: seller.id }
+            }
+        }
+    })
 
     return {
-        totalSales: 0, // Placeholder until aggregation logic confirmed
+        totalSales, // Gross
+        netRevenue,
         activeProducts,
-        totalOrders: 0,
+        totalOrders: uniqueOrderCount,
         recentOrders: []
     }
 }
@@ -82,8 +77,9 @@ export default async function DashboardPage() {
                             <DollarSign className="h-6 w-6" />
                         </div>
                         <div>
-                            <p className="text-sm font-medium text-gray-500">Chiffre d'affaires</p>
-                            <h3 className="text-2xl font-bold text-gray-900">{formatPrice(stats.totalSales)}</h3>
+                            <p className="text-sm font-medium text-gray-500">Revenu Net</p>
+                            <h3 className="text-2xl font-bold text-gray-900">{formatPrice(stats.netRevenue)}</h3>
+                            <p className="text-xs text-gray-400">Brut: {formatPrice(stats.totalSales)}</p>
                         </div>
                     </div>
                 </Card>

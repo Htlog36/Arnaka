@@ -148,8 +148,8 @@ export default function ProductDetailPage({
                             <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
                             <div className="mt-2 flex items-center justify-between">
                                 <div className="flex items-center gap-4">
-                                    <Link href={`/seller/${product.sellerId}`} className="text-sm font-medium text-indigo-600 hover:underline">
-                                        Vendu par {product.seller.companyName}
+                                    <Link href={`/seller/${product.seller.slug || product.seller.id}`} className="text-sm font-medium text-indigo-600 hover:underline">
+                                        Vendu par {product.seller.storeName || "Vendeur Certifié"}
                                     </Link>
                                     {product.averageRating && (
                                         <div className="flex items-center gap-1">
